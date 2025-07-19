@@ -358,11 +358,16 @@ class TargetingSystem {
     };
   }
 }
+const GamePackages = {
+  GamePackage1: "com.dts.freefireth",
+  GamePackage2: "com.dts.freefiremax"
+};
 
+// ===
 // ======= Profiles =======
 const profiles = {
   balanced: {
-    detection: { scanRadius: 400, scanFOV: 120, detectionThreshold: 0.7 },
+    detection: { scanRadius: 400, scanFOV: 120, detectionThreshold: 0.001 },
     aimLock: { lockStrength: 0.6, smoothing: 0.1, enablePrediction: true },
     autoLock: true
   }
