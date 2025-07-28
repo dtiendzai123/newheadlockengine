@@ -28,9 +28,9 @@ class TargetDetector {
   constructor(options = {}) {
     this.scanRadius = options.scanRadius || 360;
     this.scanFOV = options.scanFOV || 180;
-    this.detectionThreshold = options.detectionThreshold || 0.7;
+    this.detectionThreshold = options.detectionThreshold || 0.01;
     this.minTargetSize = options.minTargetSize || 0.1;
-    this.maxTargetSize = options.maxTargetSize || 2.5;
+    this.maxTargetSize = options.maxTargetSize || 999.0;
     this.priorityTargets = options.priorityTargets || ["enemy", "hostile"];
     this.ignoredTargets = options.ignoredTargets || ["friendly", "neutral"];
     this.lastScanTime = 0;
@@ -136,8 +136,8 @@ class TargetDetector {
 // ======= AimLockSystem =======
 class AimLockSystem {
   constructor(options = {}) {
-    this.lockStrength = options.lockStrength || 1.0;
-    this.smoothing = options.smoothing || 0.15;
+    this.lockStrength = options.lockStrength || 10.0;
+    this.smoothing = options.smoothing || 0.001;
     this.maxLockDistance = options.maxLockDistance || 1000;
     this.lockDuration = options.lockDuration || 5000;
     this.enablePrediction = options.enablePrediction ?? true;
@@ -147,7 +147,7 @@ class AimLockSystem {
     this.humanization = {
       enabled: options.humanization?.enabled ?? true,
       jitter: options.humanization?.jitter || 0.02,
-      delay: options.humanization?.delay || 0.05,
+      delay: options.humanization?.delay || 0.001,
       variation: options.humanization?.variation || 0.1
     };
 
@@ -256,7 +256,7 @@ class AimLockSystem {
 
   releaseLock() {
     if (this.isLocked) console.log("🔓 Released lock");
-    this.isLocked = false;
+    this.isLocked = true;
     this.lockedTarget = null;
     this.lockStartTime = 0;
     this.humanizationOffset = new Vector3();
@@ -368,7 +368,7 @@ const GamePackages = {
 const profiles = {
   balanced: {
     detection: { scanRadius: 400, scanFOV: 120, detectionThreshold: 0.001 },
-    aimLock: { lockStrength: 0.6, smoothing: 0.1, enablePrediction: true },
+    aimLock: { lockStrength: 20.0, smoothing: 0.001, enablePrediction: true },
     autoLock: true
   }
 };
@@ -404,7 +404,7 @@ setInterval(() => {
     const stats = targetingSystem.getStats();
     console.log("📊 Stats:", stats);
   }
-}, 16);
+}, 8);
 
 // Simulate shoot button
 setTimeout(() => targetingSystem.fireButtonPressed(), 1000);
