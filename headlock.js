@@ -1,3 +1,7 @@
+let body = $response.body;
+
+// Nếu là JSON thì parse thử
+try { body = JSON.parse($response.body); } catch (e) {}
 // ======= Vector3 (Enhanced) =======
 class Vector3 {
   constructor(x = 0, y = 0, z = 0) {
@@ -409,3 +413,8 @@ setInterval(() => {
 // Simulate shoot button
 setTimeout(() => targetingSystem.fireButtonPressed(), 1000);
 setTimeout(() => targetingSystem.fireButtonReleased(), 6000);
+if (typeof body === "object") {
+  $done({ body: JSON.stringify(body) });
+} else {
+  $done({ body });
+}
